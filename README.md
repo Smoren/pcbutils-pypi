@@ -1,4 +1,4 @@
-# PcbUtils - Python Repository Pattern Implementation
+# PcbUtils
 
 [![PyPI package](https://img.shields.io/badge/pip%20install-pcbutils-brightgreen)](https://pypi.org/project/pcbutils/)
 [![version number](https://img.shields.io/pypi/v/pcbutils?color=green&label=version)](https://github.com/Smoren/pcbutils-pypi/releases)
