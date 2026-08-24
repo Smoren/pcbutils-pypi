@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pcbutils"
+version = "0.1.0"
+description = "Tools for creating PCB patterns"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.7"
+authors = [
+    {name = "Smoren", email = "ofigate@gmail.com"},
+]
+keywords = ["pcb", "design", "electronics"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3 :: Only",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pillow>=9.0.0",
+]
+
+[project.urls]
+Documentation = "https://github.com/Smoren/pcbutils-pypi"
+"Bug Reports" = "https://github.com/Smoren/pcbutils-pypi/issues"
+"Source Code" = "https://github.com/Smoren/pcbutils-pypi"
+
+[project.optional-dependencies]
+dev = ["check-manifest", "coverage"]
+test = ["coverage", "pytest-asyncio"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.coverage.run]
+source = ["pcbutils"]
+
+[tool.coverage.report]
+exclude_also = [
+    "raise NotImplementedError",
+    "@(abc\\.)?abstractmethod",
+    "# pragma: no cover",
+]
+exclude_lines = [
+    "raise NotImplementedError",
+    "@(abc\\.)?abstractmethod",
+    "# pragma: no cover",
+]
