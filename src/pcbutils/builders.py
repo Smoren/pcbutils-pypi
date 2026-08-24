@@ -6,15 +6,19 @@ from pcbutils.structs import BoardPattern, Pin, Track, Side
 
 
 class BoardPatternImageBuilder:
-    _step: float  # в мм
+    _step: float  # mm
     _board_pattern: BoardPattern
     _pins: List[Pin]
     _tracks: List[Track]
     _dpi: int
-    _antialias_factor: int  # Коэффициент антиалиасинга
+    _antialias_factor: int
     _draw_grid: bool
+    _view_side: Side
 
-    def __init__(self, step: float, board_pattern: BoardPattern, dpi: int = 300, antialias_factor: int = 4, draw_grid: bool = True):
+    def __init__(self, step: float, board_pattern: BoardPattern, dpi: int = 300, antialias_factor: int = 4, draw_grid: bool = True, view_side: Side = Side.FRONT):
+        if view_side == Side.BOTH:
+            raise ValueError("View side must be front or back")
+
         self._step = step
         self._board_pattern = board_pattern
         self._pins = board_pattern.pins
@@ -22,6 +26,7 @@ class BoardPatternImageBuilder:
         self._dpi = dpi
         self._antialias_factor = antialias_factor
         self._draw_grid = draw_grid
+        self._view_side = view_side
 
     def _mm_to_pixels(self, mm: float) -> int:
         # 1 inch = 25.4 mm
@@ -30,7 +35,10 @@ class BoardPatternImageBuilder:
     def _mm_to_scaled_pixels(self, mm: float) -> int:
         return int(mm * self._dpi / 25.4 * self._antialias_factor)
 
-    def build(self, side: Side):
+    def build(self, side: Side, for_printing: bool = False):
+        if side == Side.BOTH:
+            raise ValueError("Side must be front or back")
+
         width_mm = self._board_pattern.x_indent * 2 + self._board_pattern.x_count * self._step
         height_mm = self._board_pattern.y_indent * 2 + self._board_pattern.y_count * self._step
 
@@ -54,6 +62,9 @@ class BoardPatternImageBuilder:
         image = image.resize((final_width, final_height), Image.Resampling.LANCZOS)
 
         image = image.convert('RGB')
+
+        if for_printing == (self._view_side == side):
+            image = image.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
 
         return image
 
