@@ -82,7 +82,18 @@ class BoardPattern:
     pins: List[Pin]
     tracks: List[Track]
 
-    def __init__(self, x_count: int, y_count: int, x_indent: float, y_indent: float, pins: List[Pin], tracks: List[Track]):
+    def __init__(self, pins: List[Pin], tracks: List[Track], x_count: Optional[int] = None, y_count: Optional[int] = None, x_indent: float = 0, y_indent: float = 0):
+        if x_count is None:
+            x_count = self._compute_count(
+                values=[pin.x for pin in pins],
+                offsets=[(track.x, track.x_count) for track in tracks],
+            )
+        if y_count is None:
+            y_count = self._compute_count(
+                values=[pin.y for pin in pins],
+                offsets=[(track.y, track.y_count) for track in tracks],
+            )
+
         self.x_count = x_count
         self.y_count = y_count
         self.x_indent = x_indent
@@ -90,3 +101,12 @@ class BoardPattern:
 
         self.pins = pins
         self.tracks = tracks
+
+    @staticmethod
+    def _compute_count(values: List[float], offsets: List[tuple]) -> int:
+        max_index = -1
+        for v in values:
+            max_index = max(max_index, int(v))
+        for start, count in offsets:
+            max_index = max(max_index, int(start), int(start + count))
+        return max_index + 1 if max_index >= 0 else 0

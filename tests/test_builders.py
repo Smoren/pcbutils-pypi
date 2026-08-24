@@ -161,7 +161,7 @@ def test_track_side_filtering(track_side, build_side, visible):
 )
 def test_image_size(x_count, y_count, x_indent, y_indent, dpi, antialias_factor):
     step = 10.0
-    pattern = BoardPattern(x_count, y_count, x_indent, y_indent, [], [])
+    pattern = BoardPattern([], [], x_count, y_count, x_indent, y_indent)
     builder = BoardPatternImageBuilder(
         step=step,
         board_pattern=pattern,
