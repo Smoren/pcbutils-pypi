@@ -46,7 +46,7 @@ class MultiTrack:
     _width: float
     _tracks: List[Track]
 
-    def __init__(self, side: Side, x_start: int, y_start: int, width: float):
+    def __init__(self, side: Side, x_start: float, y_start: float, width: float):
         self._side = side
         self._x_start = x_start
         self._y_start = y_start
